@@ -34,6 +34,7 @@ enum InterpretResult {
 };
 
 InterpretResult interpret(Chunk &chunk);
+InterpretResult interpret(const std::string& source);
 
 InterpretResult run();
 

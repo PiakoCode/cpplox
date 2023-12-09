@@ -5,6 +5,7 @@
 
 #include "../include/vm.h"
 #include "../include/debug.h"
+#include "../include/compiler.h"
 
 VM vm;
 
@@ -71,6 +72,10 @@ InterpretResult interpret(Chunk &chunk) {
     return run();
 }
 
+InterpretResult interpret(const std::string& source) {
+    compile(source);
+    return INTERPRET_OK;
+}
 
 void VM::binaryOP(op OP) {
     auto a = vm.value_stack.top();

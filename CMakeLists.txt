@@ -10,7 +10,7 @@ enable_testing()
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 file(GLOB_RECURSE HEADERS "include/*.h")
 
-add_executable(cpplox ${HEADERS} ${SOURCES} )
+add_executable(cpplox ${HEADERS} ${SOURCES})
 
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
