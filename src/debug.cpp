@@ -62,5 +62,4 @@ int disassembleInstruction(const Chunk &chunk, int offset) {
             std::printf("Unknown opcode %d\n", instruction);
             return offset + 1;
     }
-    return 0;
 }

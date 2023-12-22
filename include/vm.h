@@ -25,7 +25,12 @@ public:
     Value readConstant();
 
     static void binaryOP(op OP);
+
+    VM operator=(VM &&) = delete;
+
+    VM(VM &&) = delete;
 };
+
 extern VM vm;
 enum InterpretResult {
     INTERPRET_OK,
@@ -34,7 +39,8 @@ enum InterpretResult {
 };
 
 InterpretResult interpret(Chunk &chunk);
-InterpretResult interpret(const std::string& source);
+
+InterpretResult interpret(const std::string &source);
 
 InterpretResult run();
 

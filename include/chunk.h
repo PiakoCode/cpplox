@@ -27,9 +27,18 @@ public:
 
 
     Chunk() = default;
-
+    /**
+     * @brief
+     * @param op 操作指令
+     * @param line 行数
+     */
     void writeChunk(uint8_t op, int line);
 
+    /**
+     * @brief 加入常量值数组
+     * @param value 常量值
+     * @return 常量的 idx
+     */
     size_t addConstant(double value);
     void debug(const char* name);
     size_t count() const;

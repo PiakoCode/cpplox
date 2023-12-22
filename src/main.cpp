@@ -47,14 +47,6 @@ void runFile(const char* path) {
 }
 
 
-
-
-
-
-
-
-
-
 int main(int argc, char *argv[]) {
 
     if (argc == 1) {
@@ -67,15 +59,20 @@ int main(int argc, char *argv[]) {
     }
 
     auto& chunk = vm.chunk;
-
+    /**
+     * 添加常数
+     * 1. 向常数数组添加值
+     * 2. 添加 OP_CONSTANT 操作，和 常数idx
+     */
     auto constant = chunk.addConstant(1.2);
-
-    chunk.writeChunk(op::OP_CONSTANT,123);
+    chunk.writeChunk(OP_CONSTANT,123);
     chunk.writeChunk(constant,123);
 
     constant = chunk.addConstant(3.4);
     chunk.writeChunk(OP_CONSTANT,123);
     chunk.writeChunk(constant,123);
+
+
     chunk.writeChunk(OP_ADD,123);
 
     constant = chunk.addConstant(5.6);
@@ -84,8 +81,8 @@ int main(int argc, char *argv[]) {
 
     chunk.writeChunk(OP_DIVIDE,123);
 
-    chunk.writeChunk(op::OP_NEGATE,123);
-    chunk.writeChunk(op::OP_RETURN,123);
+    chunk.writeChunk(OP_NEGATE,123);
+    chunk.writeChunk(OP_RETURN,123);
     chunk.debug("test chunk");
     disassembleChunk(chunk, "test chunk");
     interpret(chunk);

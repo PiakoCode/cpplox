@@ -41,12 +41,12 @@ public:
 class Scanner {
 public:
     std::string words;
-    int start;
-    int current;
-    int line;
+    int start{};
+    int current{};
+    int line{};
 
     Scanner()=default;
-    Scanner(const std::string &source);
+    explicit Scanner(const std::string &source);
 } ;
 
 extern Scanner scanner;
@@ -59,8 +59,20 @@ Token string();
 Token number();
 Token identifier();
 
+/**
+ * @brief 比较字符串
+ * @param start 比较开始位置
+ * @param length 长度
+ * @param rest 剩余的字符串(需要比较的部分)
+ * @param type 比较的类型
+ * @return type or 字面量
+ */
+TokenType checkKeyword(int start,int length, const char* rest, TokenType type);
 
-TokenType checkKeyword(int ,int, const char*, TokenType);
+/**
+ * @brief 判断 Token 是关键词还是字面量
+ * @return Token 的类型
+ */
 TokenType identifierType();
 
 char advance();
