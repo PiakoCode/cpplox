@@ -5,8 +5,10 @@
 #ifndef CPPLOX_COMPILER_H
 #define CPPLOX_COMPILER_H
 
-#include "common.h"
+#include "chunk.h"
+#include "vm.h"
+#include <memory>
 
-void compile(const std::string& source);
+bool compile(std::string &source,std::shared_ptr<Chunk> chunk);
 
 #endif //CPPLOX_COMPILER_H

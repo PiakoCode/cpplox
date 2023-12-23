@@ -5,6 +5,8 @@
 #ifndef CPPLOX_COMMON_H
 #define CPPLOX_COMMON_H
 
+#define  DEBUG_PRINT_CODE
+
 #define DEBUG_TRACE_EXECUTION
 
 #include <vector>
@@ -12,5 +14,6 @@
 #include <cstdint>
 #include <string>
 #include <cstdio>
+#include <memory>
 
 #endif //CPPLOX_COMMON_H

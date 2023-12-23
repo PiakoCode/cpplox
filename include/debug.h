@@ -7,8 +7,9 @@
 
 #include "common.h"
 #include "chunk.h"
+#include <memory>
 
-void disassembleChunk(const Chunk& chunk,const char* name);
-int disassembleInstruction(const Chunk& chunk, int offset);
+void disassembleChunk(std::shared_ptr<Chunk> chunk,const char* name);
+int disassembleInstruction(std::shared_ptr<Chunk> chunk, int offset);
 
 #endif //CPPLOX_DEBUG_H

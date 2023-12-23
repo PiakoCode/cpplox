@@ -6,12 +6,13 @@
 #include "../include/vm.h"
 #include "../include/debug.h"
 #include "../include/compiler.h"
+#include <memory>
 
 VM vm;
 
 InterpretResult run() {
     while (true) {
-#ifdef DEBUG_TRACE_EXECUTION
+        #ifdef DEBUG_TRACE_EXECUTION
 
         // 遍历栈(从栈底开始)
         std::printf("          ");
@@ -32,7 +33,7 @@ InterpretResult run() {
 
         disassembleInstruction(vm.chunk, vm.ip);
 
-#endif
+        #endif
         uint8_t instruction = vm.readByte();
         switch (instruction) {
             case OP_CONSTANT: {
@@ -66,15 +67,26 @@ InterpretResult run() {
 
 }
 
-InterpretResult interpret(Chunk &chunk) {
+InterpretResult interpret(std::shared_ptr<Chunk>& chunk) {
     vm.chunk = chunk;
     vm.ip = 0;
     return run();
 }
 
-InterpretResult interpret(const std::string& source) {
-    compile(source);
-    return INTERPRET_OK;
+
+InterpretResult interpret(std::string& source) {
+    std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>();
+
+    if (!compile(source,chunk)) {
+        return INTERPRET_COMPILE_ERROR;
+    }
+
+    vm.chunk = chunk;
+    vm.ip = 0;
+
+    auto result = run();
+
+    return result;
 }
 
 void VM::binaryOP(op OP) {
@@ -84,25 +96,25 @@ void VM::binaryOP(op OP) {
     vm.value_stack.pop();
     switch (OP) {
         case OP_ADD:
-            vm.value_stack.push(a + b);
+            vm.value_stack.push(b + a);
             break;
         case OP_SUBTRACT:
-            vm.value_stack.push(a - b);
+            vm.value_stack.push(b - a);
             break;
         case OP_MULTIPLY:
-            vm.value_stack.push(a * b);
+            vm.value_stack.push(b * a);
             break;
         case OP_DIVIDE:
-            vm.value_stack.push(a / b);
+            vm.value_stack.push(b / a);
             break;
     }
 }
 
 
 uint8_t VM::readByte() {
-    return vm.chunk.code[ip++];
+    return vm.chunk->code[ip++];
 }
 
 Value VM::readConstant() {
-    return vm.chunk.constants[readByte()];
+    return vm.chunk->constants[readByte()];
 }

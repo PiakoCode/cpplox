@@ -11,7 +11,8 @@
 
 class VM {
 public:
-    Chunk chunk;
+    std::shared_ptr<Chunk> chunk{std::make_shared<Chunk>()};
+    // The index of chunk.code
     int ip = 0;
 
     std::stack<Value> value_stack;
@@ -38,9 +39,9 @@ enum InterpretResult {
     INTERPRET_RUNTIME_ERROR
 };
 
-InterpretResult interpret(Chunk &chunk);
+InterpretResult interpret(std::shared_ptr<Chunk> &chunk);
 
-InterpretResult interpret(const std::string &source);
+InterpretResult interpret(std::string &source);
 
 InterpretResult run();
 

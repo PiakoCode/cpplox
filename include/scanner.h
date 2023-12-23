@@ -33,7 +33,7 @@ typedef enum {
 class Token {
 public:
     TokenType type;
-    std::string word;
+    std::string word; // start
     int line;
 };
 
@@ -45,18 +45,22 @@ public:
     int current{};
     int line{};
 
-    Scanner()=default;
+    Scanner() = default;
+
     explicit Scanner(const std::string &source);
-} ;
+};
 
 extern Scanner scanner;
 
 bool isAtEnd();
+
 Token scanToken();
+
 Token makeToken(TokenType type);
-Token errorToken(const std::string& message);
-Token string();
-Token number();
+
+Token errorToken(const std::string &message);
+
+
 Token identifier();
 
 /**
@@ -67,20 +71,13 @@ Token identifier();
  * @param type 比较的类型
  * @return type or 字面量
  */
-TokenType checkKeyword(int start,int length, const char* rest, TokenType type);
+TokenType checkKeyword(int start, int length, const char *rest, TokenType type);
 
 /**
  * @brief 判断 Token 是关键词还是字面量
  * @return Token 的类型
  */
 TokenType identifierType();
-
-char advance();
-char peek();
-char peekNext();
-bool match(char expected);
-void skipWhitespace();
-
 
 
 #endif //CPPLOX_SCANNER_H

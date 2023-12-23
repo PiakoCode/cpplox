@@ -5,11 +5,11 @@
 
 #include "../include/debug.h"
 
-void disassembleChunk(const Chunk &chunk, const char *name) {
+void disassembleChunk(std::shared_ptr<Chunk> chunk, const char *name) {
     std::printf("== %s == \n", name);
 
     int offset = 0;
-    while (offset < chunk.code.size()) {
+    while (offset < chunk->code.size()) {
         offset = disassembleInstruction(chunk, offset);
     }
 }
@@ -21,28 +21,28 @@ int simpleInstruction(const char *name, int offset) {
 }
 
 // Instruction + constant
-int constantInstruction(const char *name, const Chunk &chunk, int offset) {
-    auto constant = chunk.code[offset + 1];
+int constantInstruction(const char *name, std::shared_ptr<Chunk> chunk, int offset) {
+    auto constant = chunk->code[offset + 1];
     std::printf("%-16s %4d '", name, constant);
 
-    printValue(chunk.constants[constant]);
+    printValue(chunk->constants[constant]);
 
     printf("'\n");
     return offset + 2;
 }
 
 
-int disassembleInstruction(const Chunk &chunk, int offset) {
+int disassembleInstruction(std::shared_ptr<Chunk> chunk, int offset) {
     std::printf("%04d ", offset);
 
-    if (offset > 0 && chunk.lines[offset] == chunk.lines[offset - 1]) {
+    if (offset > 0 && chunk->lines[offset] == chunk->lines[offset - 1]) {
         std::printf("   | ");
     } else {
-        std::printf("%4d ", chunk.lines[offset]);
+        std::printf("%4d ", chunk->lines[offset]);
     }
 
 
-    uint8_t instruction = chunk.code[offset];
+    uint8_t instruction = chunk->code[offset];
     switch (instruction) {
         case OP_RETURN:
             return simpleInstruction("OP_RETURN", offset);

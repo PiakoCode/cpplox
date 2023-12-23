@@ -111,8 +111,7 @@ Token number() {
 }
 
 TokenType checkKeyword(int start, int length, const char *rest, TokenType type) {
-    std::string_view keyword = scanner.words.substr(start, length);
-    if (keyword == rest) {
+    if (scanner.words.substr(start, length) == rest) {
         return type;
     }
 

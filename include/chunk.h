@@ -21,9 +21,9 @@ enum op {
 
 class Chunk {
 public:
-    std::vector<uint8_t> code;
-    std::vector<int> lines;
-    std::vector<Value> constants;
+    std::vector<uint8_t> code{};
+    std::vector<int> lines{};
+    std::vector<Value> constants{};
 
 
     Chunk() = default;
