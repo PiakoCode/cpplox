@@ -10,10 +10,11 @@
 #define DEBUG_TRACE_EXECUTION
 
 #include <vector>
-#include <stack>
-#include <cstdint>
 #include <string>
 #include <cstdio>
+#include <cstdint>
+#include <cstdarg>
+#include <cstddef>
 #include <memory>
 
 #endif //CPPLOX_COMMON_H

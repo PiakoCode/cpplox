@@ -36,7 +36,13 @@ std::string readFile(const char *path) {
 
 void runFile(const char *path) {
     std::string source = readFile(path);
-    InterpretResult result = interpret(source);
+    int i = 0;
+    InterpretResult result;
+    while (i < 1000) {
+        result = interpret(source);
+        i++;
+    }
+    
 
     if (result == INTERPRET_COMPILE_ERROR)
         exit(65);

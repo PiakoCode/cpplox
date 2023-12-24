@@ -111,7 +111,7 @@ Token number() {
 }
 
 TokenType checkKeyword(int start, int length, const char *rest, TokenType type) {
-    if (scanner.words.substr(start, length) == rest) {
+    if (scanner.words.substr(scanner.start + start, length) == rest) {
         return type;
     }
 

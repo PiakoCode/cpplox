@@ -52,6 +52,7 @@ static void grouping();
 static void unary();
 static void binary();
 static void number();
+static void literal();
 
 ParseRule rules[40]= {
 rules[TOKEN_LEFT_PAREN]    = {grouping, NULL,   PREC_NONE},
@@ -65,31 +66,31 @@ rules[TOKEN_PLUS]          = {NULL,     binary, PREC_TERM},
 rules[TOKEN_SEMICOLON]     = {NULL,     NULL,   PREC_NONE},
 rules[TOKEN_SLASH]         = {NULL,     binary, PREC_FACTOR},
 rules[TOKEN_STAR]          = {NULL,     binary, PREC_FACTOR},
-rules[TOKEN_BANG]          = {NULL,     NULL,   PREC_NONE},
-rules[TOKEN_BANG_EQUAL]    = {NULL,     NULL,   PREC_NONE},
+rules[TOKEN_BANG]          = {unary,     NULL,   PREC_NONE},
+rules[TOKEN_BANG_EQUAL]    = {NULL,     binary,   PREC_EQUALITY},
 rules[TOKEN_EQUAL]         = {NULL,     NULL,   PREC_NONE},
-rules[TOKEN_EQUAL_EQUAL]   = {NULL,     NULL,   PREC_NONE},
-rules[TOKEN_GREATER]       = {NULL,     NULL,   PREC_NONE},
-rules[TOKEN_GREATER_EQUAL] = {NULL,     NULL,   PREC_NONE},
-rules[TOKEN_LESS]          = {NULL,     NULL,   PREC_NONE},
-rules[TOKEN_LESS_EQUAL]    = {NULL,     NULL,   PREC_NONE},
+rules[TOKEN_EQUAL_EQUAL]   = {NULL,     binary,   PREC_EQUALITY},
+rules[TOKEN_GREATER]       = {NULL,     binary,   PREC_COMPARISON},
+rules[TOKEN_GREATER_EQUAL] = {NULL,     binary,   PREC_COMPARISON},
+rules[TOKEN_LESS]          = {NULL,     binary,   PREC_COMPARISON},
+rules[TOKEN_LESS_EQUAL]    = {NULL,     binary,   PREC_COMPARISON},
 rules[TOKEN_IDENTIFIER]    = {NULL,     NULL,   PREC_NONE},
 rules[TOKEN_STRING]        = {NULL,     NULL,   PREC_NONE},
 rules[TOKEN_NUMBER]        = {number,   NULL,   PREC_NONE},
 rules[TOKEN_AND]           = {NULL,     NULL,   PREC_NONE},
 rules[TOKEN_CLASS]         = {NULL,     NULL,   PREC_NONE},
 rules[TOKEN_ELSE]          = {NULL,     NULL,   PREC_NONE},
-rules[TOKEN_FALSE]         = {NULL,     NULL,   PREC_NONE},
+rules[TOKEN_FALSE]         = {literal,     NULL,   PREC_NONE},
 rules[TOKEN_FOR]           = {NULL,     NULL,   PREC_NONE},
 rules[TOKEN_FUN]           = {NULL,     NULL,   PREC_NONE},
 rules[TOKEN_IF]            = {NULL,     NULL,   PREC_NONE},
-rules[TOKEN_NIL]           = {NULL,     NULL,   PREC_NONE},
+rules[TOKEN_NIL]           = {literal,     NULL,   PREC_NONE},
 rules[TOKEN_OR]            = {NULL,     NULL,   PREC_NONE},
 rules[TOKEN_PRINT]         = {NULL,     NULL,   PREC_NONE},
 rules[TOKEN_RETURN]        = {NULL,     NULL,   PREC_NONE},
 rules[TOKEN_SUPER]         = {NULL,     NULL,   PREC_NONE},
 rules[TOKEN_THIS]          = {NULL,     NULL,   PREC_NONE},
-rules[TOKEN_TRUE]          = {NULL,     NULL,   PREC_NONE},
+rules[TOKEN_TRUE]          = {literal,     NULL,   PREC_NONE},
 rules[TOKEN_VAR]           = {NULL,     NULL,   PREC_NONE},
 rules[TOKEN_WHILE]         = {NULL,     NULL,   PREC_NONE},
 rules[TOKEN_ERROR]         = {NULL,     NULL,   PREC_NONE},
@@ -237,7 +238,7 @@ static void grouping() {
     consume(TOKEN_RIGHT_PAREN, msg);
 }
 
-// 前缀表达式 -x
+// 前缀表达式 -x !x
 static void unary() {
     auto operatorType = parser.previous.type;
 
@@ -247,6 +248,7 @@ static void unary() {
     // Emit the operator instruction.
     switch (operatorType) {
         case TOKEN_MINUS: emitByte(OP_NEGATE); break;
+        case TOKEN_BANG: emitByte(OP_NOT); break;
         default: return ; // Unreachable;
     }
 }
@@ -258,11 +260,27 @@ static void binary() {
     parsePrecedence((Precedence)(rule->precedence  + 1));
 
     switch (operatorType) {
+        case TOKEN_BANG_EQUAL: emitBytes(OP_EQUAL, OP_NOT);break;
+        case TOKEN_EQUAL_EQUAL: emitByte(OP_EQUAL); break;
+        case TOKEN_GREATER: emitByte(OP_GREATER); break;
+        case TOKEN_GREATER_EQUAL: emitBytes(OP_LESS, OP_NOT); break;
+        case TOKEN_LESS: emitByte(OP_LESS); break;
+        case TOKEN_LESS_EQUAL: emitBytes(OP_GREATER, OP_NOT); break;
         case TOKEN_PLUS: emitByte(OP_ADD); break;
         case TOKEN_MINUS: emitByte(OP_SUBTRACT); break;
         case TOKEN_STAR: emitByte(OP_MULTIPLY); break;
         case TOKEN_SLASH: emitByte(OP_DIVIDE); break;
+        
         default: return; // Unreachable.
+    }
+}
+
+static void literal() {
+    switch (parser.previous.type) {
+        case TOKEN_FALSE: emitByte(OP_FALSE);break;
+        case TOKEN_NIL: emitByte(OP_NIL); break;
+        case TOKEN_TRUE: emitByte(OP_TRUE); break;
+        default: return; // Unreachable
     }
 }
 

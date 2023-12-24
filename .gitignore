@@ -2,3 +2,7 @@
 .cache
 build
 cmake-build-debug
+*.svg
+test
+test.txt
+*.sh

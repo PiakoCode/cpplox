@@ -6,8 +6,15 @@
 #define CPPLOX_VM_H
 
 #include "chunk.h"
+#include "stack.h"
 
 #define STACK_MAX 256;
+
+enum InterpretResult {
+    INTERPRET_OK,
+    INTERPRET_COMPILE_ERROR,
+    INTERPRET_RUNTIME_ERROR
+};
 
 class VM {
 public:
@@ -15,7 +22,7 @@ public:
     // The index of chunk.code
     int ip = 0;
 
-    std::stack<Value> value_stack;
+    Stack<Value> value_stack;
 
     uint8_t readByte();
 
@@ -25,7 +32,7 @@ public:
 
     Value readConstant();
 
-    static void binaryOP(op OP);
+    static InterpretResult binaryOP(op OP);
 
     VM operator=(VM &&) = delete;
 
@@ -33,11 +40,6 @@ public:
 };
 
 extern VM vm;
-enum InterpretResult {
-    INTERPRET_OK,
-    INTERPRET_COMPILE_ERROR,
-    INTERPRET_RUNTIME_ERROR
-};
 
 InterpretResult interpret(std::shared_ptr<Chunk> &chunk);
 
