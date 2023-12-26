@@ -15,6 +15,8 @@
 #include <cstdint>
 #include <cstdarg>
 #include <cstddef>
+#include <cstring>
 #include <memory>
+#include <cstdlib>
 
 #endif //CPPLOX_COMMON_H

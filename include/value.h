@@ -5,12 +5,16 @@
 #define CPPLOX_VALUE_H
 
 #include "common.h"
+#include "object.h"
 
 enum class ValueType{
     Bool,
     Nil,
-    Number
+    Number,
+    Obj
 };
+
+typedef struct Obj Obj;
 
 class Value {
     public:
@@ -20,10 +24,12 @@ class Value {
     union {
         bool boolean;
         double number;
+        Obj* obj;
     } data;
     explicit Value(bool b):type(ValueType::Bool), data{.boolean = b}{}
     explicit Value(std::nullptr_t):type(ValueType::Nil), data{.number = 0}{}
     explicit Value(double number):type(ValueType::Number),data{.number = number} {}
+    explicit Value(Obj* obj):type(ValueType::Obj),data{.obj = obj}{}
     Value() = delete;
 
     ValueType getType() const {
@@ -38,6 +44,9 @@ class Value {
     double asNumber() const {
         return data.number;
     }
+    Obj* asObj() const {
+        return data.obj;
+    }
 
     static bool isBool(Value& value)  {
         return value.type == ValueType::Bool;
@@ -48,6 +57,19 @@ class Value {
     static bool isNumber(Value& value) {
         return value.type == ValueType::Number;
     }
+    static bool isObj(Value& value) {
+        return value.type == ValueType::Obj;
+    }
+    static bool isObjType(Value value, ObjType type) {
+        return Value::isObj(value) && value.asObj()->type == type;
+    }
+    static bool isString(Value& value) {
+        if (isBool(value)) {
+            return isObjType(value, ObjType::OBJ_STRING);
+        }
+        return false;
+    }
+
 
     static bool valuesEqual(Value a, Value b) {
         if(a.type != b.type)

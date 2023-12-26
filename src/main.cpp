@@ -37,11 +37,7 @@ std::string readFile(const char *path) {
 void runFile(const char *path) {
     std::string source = readFile(path);
     int i = 0;
-    InterpretResult result;
-    while (i < 1000) {
-        result = interpret(source);
-        i++;
-    }
+    InterpretResult result = interpret(source);
     
 
     if (result == INTERPRET_COMPILE_ERROR)
@@ -62,34 +58,34 @@ int main(int argc, char *argv[]) {
         exit(64);
     }
 
-    // auto& chunk = vm.chunk;
-    // /**
-    //  * 添加常数
-    //  * 1. 向常数数组添加值
-    //  * 2. 添加 OP_CONSTANT 操作，和 常数idx
-    //  */
-    // auto constant = chunk->addConstant(1.2);
-    // chunk->writeChunk(OP_CONSTANT, 123);
-    // chunk->writeChunk(constant, 123);
+    auto& chunk = vm.chunk;
+    /**
+     * 添加常数
+     * 1. 向常数数组添加值
+     * 2. 添加 OP_CONSTANT 操作，和 常数idx
+     */
+    auto constant = chunk->addConstant(1.2);
+    chunk->writeChunk(OP_CONSTANT, 123);
+    chunk->writeChunk(constant, 123);
 
-    // constant = chunk->addConstant(3.4);
-    // chunk->writeChunk(OP_CONSTANT, 123);
-    // chunk->writeChunk(constant, 123);
+    constant = chunk->addConstant(3.4);
+    chunk->writeChunk(OP_CONSTANT, 123);
+    chunk->writeChunk(constant, 123);
 
 
-    // chunk->writeChunk(OP_ADD, 123);
+    chunk->writeChunk(OP_ADD, 123);
 
-    // constant = chunk->addConstant(5.6);
-    // chunk->writeChunk(OP_CONSTANT, 123);
-    // chunk->writeChunk(constant, 123);
+    constant = chunk->addConstant(5.6);
+    chunk->writeChunk(OP_CONSTANT, 123);
+    chunk->writeChunk(constant, 123);
 
-    // chunk->writeChunk(OP_DIVIDE, 123);
+    chunk->writeChunk(OP_DIVIDE, 123);
 
-    // chunk->writeChunk(OP_NEGATE, 123);
-    // chunk->writeChunk(OP_RETURN, 123);
-    // chunk->debug("test chunk");
-    // disassembleChunk(chunk, "test chunk");
-    // interpret(chunk);
+    chunk->writeChunk(OP_NEGATE, 123);
+    chunk->writeChunk(OP_RETURN, 123);
+    chunk->debug("test chunk");
+    disassembleChunk(chunk, "test chunk");
+    interpret(chunk);
 
     return 0;
 }
