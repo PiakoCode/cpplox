@@ -18,7 +18,7 @@ enum InterpretResult {
 
 class VM {
 public:
-    std::shared_ptr<Chunk> chunk{std::make_shared<Chunk>()};
+    std::shared_ptr<Chunk> chunk { std::make_shared<Chunk>() };
     // The index of chunk.code
     int ip = 0;
 
@@ -34,17 +34,17 @@ public:
 
     static InterpretResult binaryOP(op OP);
 
-    VM operator=(VM &&) = delete;
+    VM operator=(VM&&) = delete;
 
-    VM(VM &&) = delete;
+    VM(VM&&) = delete;
 };
 
 extern VM vm;
 
-InterpretResult interpret(std::shared_ptr<Chunk> &chunk);
+InterpretResult interpret(std::shared_ptr<Chunk>& chunk);
 
-InterpretResult interpret(std::string &source);
+InterpretResult interpret(std::string& source);
 
 InterpretResult run();
 
-#endif //CPPLOX_VM_H
+#endif // CPPLOX_VM_H

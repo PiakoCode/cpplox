@@ -9,6 +9,6 @@
 #include "vm.h"
 #include <memory>
 
-bool compile(std::string &source,std::shared_ptr<Chunk> chunk);
+bool compile(std::string& source, std::shared_ptr<Chunk> chunk);
 
-#endif //CPPLOX_COMPILER_H
+#endif // CPPLOX_COMPILER_H

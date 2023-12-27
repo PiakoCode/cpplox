@@ -7,7 +7,7 @@
 
 #include "common.h"
 
-typedef enum {
+using TokenType = enum {
     // Single-character tokens. 单字符词法
     TOKEN_LEFT_PAREN, TOKEN_RIGHT_PAREN,
     TOKEN_LEFT_BRACE, TOKEN_RIGHT_BRACE,
@@ -27,7 +27,7 @@ typedef enum {
     TOKEN_TRUE, TOKEN_VAR, TOKEN_WHILE,
 
     TOKEN_ERROR, TOKEN_EOF
-} TokenType;
+};
 
 
 class Token {

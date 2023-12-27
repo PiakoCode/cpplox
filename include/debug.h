@@ -5,11 +5,10 @@
 #ifndef CPPLOX_DEBUG_H
 #define CPPLOX_DEBUG_H
 
-#include "common.h"
 #include "chunk.h"
-#include <memory>
+#include "common.h"
 
-void disassembleChunk(std::shared_ptr<Chunk> chunk,const char* name);
+void disassembleChunk(std::shared_ptr<Chunk> chunk, const char* name);
 int disassembleInstruction(std::shared_ptr<Chunk> chunk, int offset);
 
-#endif //CPPLOX_DEBUG_H
+#endif // CPPLOX_DEBUG_H

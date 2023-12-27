@@ -27,30 +27,28 @@ enum op {
     OP_RETURN,
 };
 
-
 class Chunk {
 public:
-    std::vector<uint8_t> code{};
-    std::vector<int> lines{};
-    std::vector<Value> constants{};
-
+    std::vector<uint8_t> code {};
+    std::vector<int> lines {};
+    std::vector<Value> constants {};
 
     Chunk() = default;
     /**
      * @brief
-     * @param op 操作指令
+     * @param byte 操作指令
      * @param line 行数
      */
-    void writeChunk(uint8_t op, int line);
+    void writeChunk(uint8_t byte, int line);
 
     /**
      * @brief 加入常量值数组
      * @param value 常量值
      * @return 常量的 idx
      */
-    size_t addConstant(double value);
+    size_t addConstant(Value value);
     void debug(const char* name);
     size_t count() const;
 };
 
-#endif //CPPLOX_CHUNK_H
+#endif // CPPLOX_CHUNK_H
