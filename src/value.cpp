@@ -16,7 +16,7 @@ void printObject(Value value)
 
 void printValue(Value value)
 {
-    switch (value.type) {
+    switch (value.getType()) {
 
     case ValueType::Bool:
         if (value.asBool()) {

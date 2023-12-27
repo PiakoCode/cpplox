@@ -5,7 +5,6 @@
 #define CPPLOX_OBJECT_H
 
 #include "common.h"
-#include "object/String.h"
 #include <cstring>
 
 enum ObjType {
@@ -17,30 +16,29 @@ class Obj {
 public:
     ObjType type;
     virtual ~Obj() = default;
+    explicit Obj(ObjType type):type(type){};
 };
 
-class ObjString : public Obj {
-public:
-    obj::String string;
+// class ObjString : public Obj {
+// public:
+//     obj::String string;
     
-    explicit ObjString(const char* str)
-    {
-        this->type = OBJ_STRING;
-        this->string = obj::String(str);
-    }
+//     explicit ObjString(const char* str)
+//     {
+//         this->type = OBJ_STRING;
+//         this->string = obj::String(str);
+//     }
 
-    explicit ObjString(const obj::String& str)
-    {
-        this->type = OBJ_STRING;
-        this->string = str;
-    }
+//     explicit ObjString(const obj::String& str)
+//     {
+//         this->type = OBJ_STRING;
+//         this->string = str;
+//     }
 
-    static ObjString* copyString(const std::string& str)
-    {
-        auto *p = new ObjString(str.c_str());
-        p->string.m_size = str.length();
-        return p;
-    }
-};
+//     static ObjString* copyString(const std::string& str)
+//     {
+//         return new ObjString(str.c_str());;
+//     }
+// };
 
 #endif // CPPLOX_OBJECT_H

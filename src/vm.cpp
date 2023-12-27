@@ -106,7 +106,7 @@ InterpretResult run()
                 auto& str1 = *a.asString();
                 auto& str2 = *b.asString();
                 
-                auto *p = new ObjString(str1 + str2);
+                auto *p = new obj::String(str1 + str2);
 
                 vm.value_stack.push(Value((Obj*)(p)));
             } else if (Value::isNumber(a) && Value::isNumber(b)) {

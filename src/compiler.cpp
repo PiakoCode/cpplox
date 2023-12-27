@@ -237,8 +237,9 @@ static void number()
 
 static void string()
 {
-    emitConstant(Value(
-        (Obj*)(ObjString::copyString(parser.previous.word))));
+    auto *v = new obj::String; // FIXME:删除new 
+    *v = obj::String::copyString(parser.previous.word);
+    emitConstant(Value(v));
 }
 
 static void expression()

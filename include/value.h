@@ -7,7 +7,7 @@
 #include "common.h"
 #include "object.h"
 #include <cstring>
-
+#include "object/String.h"
 enum class ValueType {
     Bool,
     Nil,
@@ -17,7 +17,6 @@ enum class ValueType {
 
 class Value {
 public:
-    ValueType type;
 
     // TODO:改为使用std::variant
     union {
@@ -59,7 +58,7 @@ public:
     }
     obj::String* asString() const
     {
-        return &((ObjString*)(data.obj))->string;
+        return (obj::String*)(data.obj);
     }
 
     char* asCString() const
@@ -118,6 +117,8 @@ public:
             return false;
         }
     }
+private:
+    ValueType type;
 };
 
 // typedef double Value;

@@ -4,10 +4,6 @@
 
 #include "../include/chunk.h"
 
-size_t Chunk::count() const
-{
-    return this->code.size();
-}
 
 void Chunk::writeChunk(uint8_t byte, int line)
 {

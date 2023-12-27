@@ -48,7 +48,6 @@ public:
      */
     size_t addConstant(Value value);
     void debug(const char* name);
-    size_t count() const;
 };
 
 #endif // CPPLOX_CHUNK_H
