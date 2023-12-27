@@ -59,12 +59,12 @@ public:
     }
     obj::String* asString() const
     {
-        return (obj::String*)(data.obj);
+        return &((ObjString*)(data.obj))->string;
     }
 
     char* asCString() const
     {
-        return ((obj::String*)(data.obj))->c_str();
+        return asString()->c_str();
     }
 
     static bool isBool(Value& value)
@@ -89,10 +89,8 @@ public:
     }
     static bool isString(Value& value)
     {
-        if (isBool(value)) {
-            return isObjType(value, ObjType::OBJ_STRING);
-        }
-        return false;
+
+        return isObjType(value, ObjType::OBJ_STRING);
     }
 
     static bool valuesEqual(Value a, Value b)
