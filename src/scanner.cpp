@@ -22,7 +22,11 @@ Token makeToken(TokenType type)
 {
     Token token;
     token.type = type;
-    token.word = scanner.words.substr(scanner.start, scanner.current - scanner.start);
+    if (type == TOKEN_STRING) { // 删去引号 TODO:确认是否需要修改
+        token.word = scanner.words.substr(scanner.start + 1, scanner.current - scanner.start - 2);
+    } else {
+        token.word = scanner.words.substr(scanner.start, scanner.current - scanner.start);
+    }
     token.line = scanner.line;
     return token;
 }

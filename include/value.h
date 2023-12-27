@@ -57,14 +57,14 @@ public:
     {
         return data.obj;
     }
-    obj::String* asString() const
+    std::string* asString() const
     {
-        return (obj::String*)(data.obj);
+        return &((ObjString*)(data.obj))->string;
     }
 
-    char* asCString() const
+    const char* asCString() const
     {
-        return ((obj::String*)(data.obj))->c_str();
+        return this->asString()->c_str();
     }
 
     static bool isBool(Value& value)
@@ -89,10 +89,8 @@ public:
     }
     static bool isString(Value& value)
     {
-        if (isBool(value)) {
-            return isObjType(value, ObjType::OBJ_STRING);
-        }
-        return false;
+
+        return isObjType(value, ObjType::OBJ_STRING);
     }
 
     static bool valuesEqual(Value a, Value b)
@@ -110,11 +108,7 @@ public:
         case ValueType::Number:
             return a.asNumber() == b.asNumber();
         case ValueType::Obj: {
-            obj::String a_str = *a.asString();
-            obj::String b_str = *b.asString();
-            if (a_str == b_str) {
-                return true;
-            }
+            return *a.asString() == *b.asString();
         }
         default:
             return false;
