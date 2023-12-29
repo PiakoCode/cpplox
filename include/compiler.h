@@ -7,7 +7,6 @@
 
 #include "chunk.h"
 #include "vm.h"
-#include <memory>
 
 bool compile(std::string& source, std::shared_ptr<Chunk> chunk);
 

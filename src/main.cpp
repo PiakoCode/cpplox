@@ -1,6 +1,3 @@
-#include "../include/chunk.h"
-#include "../include/common.h"
-#include "../include/debug.h"
 #include "../include/vm.h"
 #include <fstream>
 #include <iostream>
@@ -39,10 +36,12 @@ void runFile(const char* path)
     int i = 0;
     InterpretResult result = interpret(source);
 
-    if (result == INTERPRET_COMPILE_ERROR)
+    if (result == INTERPRET_COMPILE_ERROR) {
         exit(65);
-    if (result == INTERPRET_RUNTIME_ERROR)
+    }
+    if (result == INTERPRET_RUNTIME_ERROR) {
         exit(70);
+    }
 }
 
 int main(int argc, char* argv[])

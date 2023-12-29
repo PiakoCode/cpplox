@@ -48,17 +48,20 @@ char peek()
 
 char peekNext()
 {
-    if (isAtEnd())
+    if (isAtEnd()) {
         return '\0';
+    }
     return scanner.words[scanner.current + 1];
 }
 
 bool match(char expected)
 {
-    if (isAtEnd())
+    if (isAtEnd()) {
         return false;
-    if (scanner.words[scanner.current] != expected)
+    }
+    if (scanner.words[scanner.current] != expected) {
         return false;
+    }
     scanner.current++;
     return true;
 }
@@ -75,8 +78,9 @@ void skipWhitespace()
             break;
         } else if (c == '/') {
             if (peekNext() == '/') {
-                while (peek() != '\n' && !isAtEnd())
+                while (peek() != '\n' && !isAtEnd()) {
                     advance();
+                }
             } else {
                 return;
             }
@@ -89,25 +93,29 @@ void skipWhitespace()
 Token string()
 {
     while (peek() != '"' && !isAtEnd()) {
-        if (peek() == '\n')
+        if (peek() == '\n') {
             scanner.line++;
+        }
         advance();
     }
 
-    if (isAtEnd())
+    if (isAtEnd()) {
         return errorToken("Unterminated string.");
+}
     advance();
     return makeToken(TOKEN_STRING);
 }
 
 Token number()
 {
-    while (isdigit(peek()))
+    while (isdigit(peek())) {
         advance();
+    }
     if (peek() == '.' && isdigit(peekNext())) {
         advance();
-        while (isdigit(peek()))
+        while (isdigit(peek())) {
             advance();
+        }
     }
 
     return makeToken(TOKEN_NUMBER);
@@ -175,8 +183,9 @@ TokenType identifierType()
 
 Token identifier()
 {
-    while (isalpha(peek()) || peek() == '_' || isdigit(peek()))
+    while (isalpha(peek()) || peek() == '_' || isdigit(peek())) {
         advance();
+    }
     return makeToken(identifierType());
 }
 
@@ -191,10 +200,12 @@ Token scanToken()
 
     char c = advance();
 
-    if (std::isdigit(c))
+    if (std::isdigit(c)) {
         return number();
-    if (isalpha(c) || c == '_')
+    }
+    if (isalpha(c) || c == '_') {
         return identifier();
+    }
 
     switch (c) {
     case '(':

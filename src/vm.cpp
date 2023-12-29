@@ -5,7 +5,6 @@
 #include "../include/vm.h"
 #include "../include/compiler.h"
 #include "../include/debug.h"
-#include "../include/stack.h"
 
 VM vm;
 
@@ -105,9 +104,9 @@ InterpretResult run()
             if (Value::isString(b) && Value::isString(a)) {
                 auto& str1 = *a.asString();
                 auto& str2 = *b.asString();
-                
-                auto *p = new obj::String(str1 + str2);
 
+                auto* p = new obj::String(str1 + str2);
+                vm.obj_list.emplace_back(p);
                 vm.value_stack.push(Value((Obj*)(p)));
             } else if (Value::isNumber(a) && Value::isNumber(b)) {
                 vm.value_stack.push(Value(a.asNumber() + b.asNumber()));

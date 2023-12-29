@@ -6,7 +6,10 @@
 #define CPPLOX_VM_H
 
 #include "chunk.h"
+#include "object.h"
 #include "stack.h"
+#include <list>
+#include <memory>
 
 #define STACK_MAX 256;
 
@@ -23,6 +26,8 @@ public:
     int ip = 0;
 
     Stack<Value> value_stack;
+
+    std::list<std::shared_ptr<Obj>> obj_list; // 用于垃圾回收
 
     uint8_t readByte();
 

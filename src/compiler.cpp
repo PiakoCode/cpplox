@@ -3,7 +3,6 @@
 //
 
 #include "../include/compiler.h"
-#include "../include/object.h"
 #include "../include/scanner.h"
 
 #ifdef DEBUG_PRINT_CODE
@@ -93,10 +92,10 @@ ParseRule rules[40] = {
     rules[TOKEN_SUPER] = { nullptr, nullptr, PREC_NONE },
     rules[TOKEN_THIS] = { nullptr, nullptr, PREC_NONE },
     rules[TOKEN_TRUE] = { literal, nullptr, PREC_NONE },
-    rules[TOKEN_VAR] = { NULL, NULL, PREC_NONE },
-    rules[TOKEN_WHILE] = { NULL, NULL, PREC_NONE },
-    rules[TOKEN_ERROR] = { NULL, NULL, PREC_NONE },
-    rules[TOKEN_EOF] = { NULL, NULL, PREC_NONE },
+    rules[TOKEN_VAR] = { nullptr, nullptr, PREC_NONE },
+    rules[TOKEN_WHILE] = { nullptr, nullptr, PREC_NONE },
+    rules[TOKEN_ERROR] = { nullptr, nullptr, PREC_NONE },
+    rules[TOKEN_EOF] = { nullptr, nullptr, PREC_NONE },
 };
 
 std::shared_ptr<Chunk> compilingChunk;
@@ -237,9 +236,10 @@ static void number()
 
 static void string()
 {
-    auto *v = new obj::String; // FIXME:删除new 
-    *v = obj::String::copyString(parser.previous.word);
-    emitConstant(Value(v));
+    
+    auto v = std::make_shared<obj::String>(parser.previous.word.c_str());
+    vm.obj_list.emplace_back(v);
+    emitConstant(Value(v.get()));
 }
 
 static void expression()

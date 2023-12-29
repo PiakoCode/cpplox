@@ -21,11 +21,13 @@ public:
 
     char* m_data;
     size_t m_size;
+    uint32_t hash;
 };
 
 inline String::String(const char* str)
     : Obj(ObjType::OBJ_STRING)
 {
+    delete[] m_data;
     if (str == nullptr) {
         m_data = new char[1];
         m_data[0] = '\0';
@@ -40,8 +42,8 @@ inline String::String(const char* str)
 inline String::String(const String& str)
     : Obj(ObjType::OBJ_STRING)
 {
-    this->type = OBJ_STRING;
     m_size = str.m_size;
+    delete[] m_data;
     m_data = new char[m_size + 1];
     strcpy(m_data, str.m_data);
 }
@@ -87,6 +89,7 @@ inline bool String::operator==(const String& str) const
 inline String operator+(const String& str1, const String& str2)
 {
     String new_str;
+    delete[] new_str.m_data;
     new_str.m_size = str1.length() + str2.length();
     new_str.m_data = new char[new_str.m_size + 1];
     std::copy(str1.m_data, str1.m_data + str1.length(), new_str.m_data);
