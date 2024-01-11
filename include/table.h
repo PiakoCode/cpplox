@@ -3,18 +3,30 @@
 
 #include "common.h"
 #include "value.h"
+#include <vector>
 
+#define TABLE_MAX_LOAD 0.75
+// 哈希表实现
+
+/**
+ * @brief
+ * KV键值对
+ */
 class Entry {
 public:
-    obj::String* key;
+    obj::String* key { nullptr };
     Value value;
 };
 
+using Entries = std::vector<Entry>;
 class Table {
 public:
-    int count{0};
-    int capacity{0};
-    Entry* entries{nullptr};
+    int count;
+    Entries entries;
 };
+
+extern Table table;
+
+bool tableSet(const Table& table, const obj::String& key, Value value);
 
 #endif

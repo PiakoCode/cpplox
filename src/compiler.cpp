@@ -31,7 +31,7 @@ enum Precedence { // 按优先级排列
     PREC_PRIMARY
 };
 
-typedef void (*ParseFn)();
+using ParseFn = void (*)();
 
 class ParseRule {
 public:
@@ -236,7 +236,7 @@ static void number()
 
 static void string()
 {
-    
+
     auto v = std::make_shared<obj::String>(parser.previous.word.c_str());
     vm.obj_list.emplace_back(v);
     emitConstant(Value(v.get()));
