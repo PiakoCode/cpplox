@@ -7,6 +7,7 @@
 #include "common.h"
 #include "object.h"
 #include "object/String.h"
+
 enum class ValueType {
     Bool,
     Nil,

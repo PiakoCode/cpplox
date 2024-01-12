@@ -16,29 +16,40 @@
 
 Table table;
 
-static Entry& findEntry(std::vector<Entry>& entries,
+Entry& findEntry(std::vector<Entry>& entries,
     obj::String* key)
 {
     auto capacity = entries.capacity();
     uint32_t index = key->hash % capacity;
     while (true) {
         Entry& entry = entries[index];
-        if (entry.key == key || entry.key == nullptr) {
+        Entry* tombstone = nullptr;
+        if (entry.key == nullptr) {
+            if (Value::isNil(entry.value)) {
+                // Empty entry.
+                return tombstone != nullptr ? *tombstone : entry;
+            }
+            // We found a tombstone.
+            if (tombstone == nullptr) {
+                tombstone = &entry;
+            }
+        } else if (entry.key == key) {
+            // We found the key.
             return entry;
         }
-
         index = (index + 1) % capacity;
     }
 }
 
-static void adjustCapacity(Table& table, int capacity)
+void adjustCapacity(Table& table, int capacity)
 {
     table.entries.reserve(capacity);
     auto& entries = table.entries;
     for (int i = 0; i < capacity; i++) {
         entries[i].key = nullptr;
-        entries[i].value = NIL_VAL;
+        entries[i].value = Value(nullptr);
     }
+    table.count = 0;
     for (int i = 0; i < capacity / 2; i++) {
         Entry& entry = table.entries[i];
         if (entry.key == nullptr) {
@@ -48,6 +59,7 @@ static void adjustCapacity(Table& table, int capacity)
         Entry& dest = findEntry(entries, entry.key);
         dest.key = entry.key;
         dest.value = entry.value;
+        table.count ++;
     }
 }
 
@@ -61,7 +73,7 @@ bool tableSet(Table& table, obj::String* key, Value value)
     Entry& entry = findEntry(table.entries, key);
     bool isNewKey = entry.key == nullptr;
 
-    if (isNewKey) {
+    if (isNewKey && Value::isNil(entry.value)) {
         table.count++;
     }
 
@@ -69,6 +81,33 @@ bool tableSet(Table& table, obj::String* key, Value value)
     entry.value = value;
 
     return isNewKey;
+}
+
+bool tableGet(Table& table, obj::String* key, Value& value)
+{
+    if (table.count == 0) {
+        return false;
+    }
+    Entry& entry = findEntry(table.entries, key);
+    if (entry.key == nullptr) {
+        return false;
+    }
+    value = entry.value;
+    return true;
+}
+
+bool tableDelete(Table& table, obj::String* key)
+{
+    if (table.count == 0) {
+        return false;
+    }
+    Entry& entry = findEntry(table.entries, key);
+    if (entry.key == nullptr) {
+        return false;
+    }
+    entry.key = nullptr;
+    entry.value = Value(false);
+    return true;
 }
 
 void tableAddAll(Table& from, Table& to)

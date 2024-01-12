@@ -5,7 +5,7 @@
 #include "../include/vm.h"
 #include "../include/compiler.h"
 #include "../include/debug.h"
-
+#include "../include/value.h"
 VM vm;
 
 static void runtimeError(const char* format, ...)

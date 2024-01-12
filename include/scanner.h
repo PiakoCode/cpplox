@@ -4,10 +4,9 @@
 
 #ifndef CPPLOX_SCANNER_H
 #define CPPLOX_SCANNER_H
-
 #include "common.h"
 
-using TokenType = enum {
+enum TokenType {
     // Single-character tokens. 单字符词法
     TOKEN_LEFT_PAREN, TOKEN_RIGHT_PAREN,
     TOKEN_LEFT_BRACE, TOKEN_RIGHT_BRACE,

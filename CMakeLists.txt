@@ -1,16 +1,16 @@
 cmake_minimum_required(VERSION 3.10.0)
 project(cpplox VERSION 0.1.0 LANGUAGES C CXX)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 
 include(CTest)
 enable_testing()
 
 
-file(GLOB_RECURSE SOURCES "src/*.cpp")
-file(GLOB_RECURSE HEADERS "include/*.h")
+file(GLOB_RECURSE SOURCES "src/*.cpp" "src/object/*.cpp")
+file(GLOB_RECURSE HEADERS "include/*.h" "include/object/*.h")
 
-add_executable(cpplox ${SOURCES} ${HEADERS} )
+add_executable(cpplox ${HEADERS} ${SOURCES})
 
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

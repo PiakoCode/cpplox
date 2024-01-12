@@ -8,6 +8,7 @@
 #include "chunk.h"
 #include "object.h"
 #include "stack.h"
+#include "table.h"
 #include <list>
 #include <memory>
 
@@ -27,7 +28,11 @@ public:
 
     Stack<Value> value_stack;
 
+    Table strings;
+
     std::list<std::shared_ptr<Obj>> obj_list; // 用于垃圾回收
+
+
 
     uint8_t readByte();
 

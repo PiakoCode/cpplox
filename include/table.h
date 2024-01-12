@@ -2,8 +2,8 @@
 #define CPPLOX_TABLE_H
 
 #include "common.h"
+#include "object/String.h"
 #include "value.h"
-#include <vector>
 
 #define TABLE_MAX_LOAD 0.75
 // 哈希表实现
@@ -27,6 +27,7 @@ public:
 
 extern Table table;
 
-bool tableSet(const Table& table, const obj::String& key, Value value);
-
+bool tableSet(Table& table, obj::String* key, Value value);
+void adjustCapacity(Table& table, int capacity);
+Entry& findEntry(std::vector<Entry>& entries, obj::String* key);
 #endif
