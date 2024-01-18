@@ -2,11 +2,11 @@
 // Created by Piako on 23-12-9.
 //
 
-#include "../include/compiler.h"
-#include "../include/scanner.h"
+#include "compiler.h"
+#include "scanner.h"
 
 #ifdef DEBUG_PRINT_CODE
-#include "../include/debug.h"
+#include "debug.h"
 #endif
 
 class Parser {

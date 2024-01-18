@@ -2,7 +2,7 @@
 // Created by Piako on 23-12-7.
 //
 
-#include "../include/chunk.h"
+#include "chunk.h"
 
 
 void Chunk::writeChunk(uint8_t byte, int line)

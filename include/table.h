@@ -7,7 +7,7 @@
 
 #define TABLE_MAX_LOAD 0.75
 // 哈希表实现
-
+// FIXME: 修正哈希表
 /**
  * @brief
  * KV键值对
@@ -30,4 +30,6 @@ extern Table table;
 bool tableSet(Table& table, obj::String* key, Value value);
 void adjustCapacity(Table& table, int capacity);
 Entry& findEntry(std::vector<Entry>& entries, obj::String* key);
+obj::String* tableFindString(Table& table, const std::string& str,uint32_t hash);
+
 #endif

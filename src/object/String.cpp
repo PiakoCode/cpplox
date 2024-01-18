@@ -1,7 +1,7 @@
 
-#include "../../include/object/String.h"
-#include "../../include/vm.h"
-#include "../../include/table.h"
+#include "object/String.h"
+#include "table.h"
+#include "vm.h"
 namespace obj {
 
 // 构造函数
@@ -19,6 +19,16 @@ String::String(const char* str)
         strcpy(m_data, str);
     }
     hash = hashString(m_data);
+        //auto hash = hashString(str);
+
+    auto* interned = tableFindString(vm.strings, str, hash);
+    if (interned != nullptr) {
+        this->m_data = interned->m_data;
+        this->m_size = interned->m_size;
+        this->hash = interned->hash;
+        this->next = interned->next;
+        this->type = interned->type;
+    }
 }
 
 String::String(const String& str)
@@ -127,10 +137,12 @@ String operator+(const String& str1, const String& str2)
 String String::copyString(const std::string& str)
 {
     auto hash = hashString(str);
-    // String interned = tableFindString(vm.strings, str, hash);
-    // if (&interned != nullptr) {
-    //     return interned;
-    // }
+
+    auto* interned = tableFindString(vm.strings, str, hash);
+    if (interned != nullptr) {
+        return *interned;
+    }
+
     return String(str.c_str());
 }
 } // namespace obj

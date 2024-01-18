@@ -1,4 +1,4 @@
-#include "../include/vm.h"
+#include "vm.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>

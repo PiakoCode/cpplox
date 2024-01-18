@@ -1,7 +1,7 @@
 //
 // Created by Piako on 23-12-9.
 //
-#include "../include/scanner.h"
+#include "scanner.h"
 
 Scanner scanner;
 

@@ -2,7 +2,7 @@
 // Created by Piako on 23-12-7.
 //
 
-#include "../include/debug.h"
+#include "debug.h"
 
 void disassembleChunk(std::shared_ptr<Chunk> chunk, const char* name)
 {

@@ -6,11 +6,12 @@ set(CMAKE_CXX_STANDARD 20)
 include(CTest)
 enable_testing()
 
+include_directories(include)
 
 file(GLOB_RECURSE SOURCES "src/*.cpp" "src/object/*.cpp")
 file(GLOB_RECURSE HEADERS "include/*.h" "include/object/*.h")
 
-add_executable(cpplox ${HEADERS} ${SOURCES})
+add_executable(cpplox ${SOURCES} ${HEADERS})
 
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

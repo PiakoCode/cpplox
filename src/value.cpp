@@ -1,7 +1,7 @@
 //
 // Created by Piako on 23-12-8.
 //
-#include "../include/value.h"
+#include "value.h"
 #include <cstdio>
 
 void printObject(Value value)

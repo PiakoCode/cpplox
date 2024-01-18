@@ -2,10 +2,10 @@
 // Created by Piako on 23-12-8.
 //
 
-#include "../include/vm.h"
-#include "../include/compiler.h"
-#include "../include/debug.h"
-#include "../include/value.h"
+#include "vm.h"
+#include "compiler.h"
+#include "debug.h"
+#include "value.h"
 VM vm;
 
 static void runtimeError(const char* format, ...)

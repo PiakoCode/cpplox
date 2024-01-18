@@ -112,6 +112,8 @@ public:
             if (a_str == b_str) {
                 return true;
             }
+            // FIXME:修正哈希表
+            // return a.asObj() == b.asObj();
         }
         default:
             return false;
